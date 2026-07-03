@@ -29,50 +29,44 @@ const Login = ({ setToken }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 px-4">
-      <div className="w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-2xl p-8">
-        <h1 className="text-3xl font-semibold text-white text-center mb-6">
-          Admin Login
-        </h1>
-        <form onSubmit={onSubmitHandler}>
-          <div className="mb-5">
-            <label className="block text-sm text-gray-300 mb-1">
-              Email Address
-            </label>
+    <div className="flex min-h-screen items-center justify-center bg-admin-bg px-4 py-10">
+      <div className="w-full max-w-md rounded-[32px] border border-admin-border bg-admin-surface p-8 shadow-[0_24px_80px_rgba(15,23,42,0.08)]">
+        <div className="mb-8 text-center">
+          <p className="section-title">Secure access</p>
+          <h1 className="mt-2 text-3xl font-semibold text-admin-text">Admin Login</h1>
+          <p className="mt-2 text-sm text-admin-muted">Access the operations dashboard with your credentials.</p>
+        </div>
+        <form onSubmit={onSubmitHandler} className="space-y-4">
+          <div>
+            <label className="mb-1 block text-sm font-medium text-admin-text">Email Address</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
-              className="w-full px-4 py-2 rounded-lg bg-white/10 text-white border border-gray-500 focus:border-white focus:ring-1 focus:ring-white outline-none transition duration-200 placeholder-gray-400"
+              className="w-full rounded-2xl border border-admin-border bg-admin-surface-muted px-4 py-3 text-admin-text placeholder:text-admin-muted"
             />
           </div>
-          <div className="mb-6">
-            <label className="block text-sm text-gray-300 mb-1">
-              Password
-            </label>
+          <div>
+            <label className="mb-1 block text-sm font-medium text-admin-text">Password</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full px-4 py-2 rounded-lg bg-white/10 text-white border border-gray-500 focus:border-white focus:ring-1 focus:ring-white outline-none transition duration-200 placeholder-gray-400"
+              className="w-full rounded-2xl border border-admin-border bg-admin-surface-muted px-4 py-3 text-admin-text placeholder:text-admin-muted"
             />
           </div>
           <button
             type="submit"
-            className="w-full py-2.5 rounded-lg bg-white text-black font-semibold hover:bg-gray-200 active:scale-95 transition-all duration-200"
+            className="w-full rounded-2xl bg-admin-accent px-4 py-3 font-semibold text-admin-accent-contrast transition hover:opacity-90"
           >
             Login
           </button>
         </form>
-
-        {/* Footer */}
-        <p className="text-xs text-gray-400 text-center mt-6">
-          © 2026 Admin Panel
-        </p>
+        <p className="mt-6 text-center text-xs text-admin-muted">© 2026 Admin Panel</p>
       </div>
     </div>
   );

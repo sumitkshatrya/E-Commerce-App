@@ -1,8 +1,9 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import { assets } from '../assets/assets'
 import axios from 'axios'
-import { backendUrl } from '../App'
+import { backendUrl } from '../constants/adminConstants'
 import { toast } from 'react-toastify'
+
 
 const Add = ({token}) => {
 
@@ -16,6 +17,7 @@ const Add = ({token}) => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("Men");
   const [subCategory, setSubCategory] =  useState("Topwear");
+
   const [bestSeller, setBestSeller] = useState(false);
   const [sizes, setSizes] = useState([]);
 

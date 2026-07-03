@@ -11,7 +11,7 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([])
   const [category,setCategory] = useState([])
   const [subCategory, setSubCategory] = useState([])
-  const [sortType, setSortType] = useState('relavent')
+  const [sortType, setSortType] = useState('relevant')
 
     const toggleCategory = (e) =>{
 
@@ -84,84 +84,165 @@ const Collection = () => {
 
 
   return (
-    <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
-      {/* filter Options */}
-      <div className="min-w-60">
-        <p
+    <div className="flex flex-col md:flex-row gap-8 pt-10 border-t border-premium animate-fade-in">
+      
+      {/* Filter Sidebar Container */}
+      <div className="min-w-[240px] md:sticky md:top-24 h-fit">
+        {/* Title for filter toggler */}
+        <button
           onClick={() => setShowFilter(!showFilter)}
-          className="my-2 text-xl flex items-center cursor-pointer gap-2"
+          className="my-2 text-lg font-semibold tracking-wide flex items-center justify-between w-full md:cursor-default"
         >
-          FILTERS
-          <img
-            src={assets.dropdown_icon}
-            className={`h-3 sm:hidden ${showFilter ? "rotate-90" : ""}`}
-            alt=""
-          />
-        </p>
-        {/* Category Filter */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? "" : "hidden"} sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">CATEGORIES</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Men"} onChange={toggleCategory}/>
-              Men
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Women"} onChange={toggleCategory}/>
-              Women
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Kids"} onChange={toggleCategory} />
-              Kids
-            </p>
+          <span className="flex items-center gap-2">
+            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            FILTERS
+          </span>
+          <svg 
+            className={`h-4 w-4 md:hidden transition-transform duration-300 ${showFilter ? "rotate-180" : ""}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+            strokeWidth="2.5"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {/* Filters Group (Hidden on mobile by default) */}
+        <div className={`space-y-6 mt-6 ${showFilter ? "block animate-slide-down" : "hidden"} md:block`}>
+          
+          {/* Category Filter Card */}
+          <div className="bg-premium-card border-premium rounded-2xl p-5 shadow-premium">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-900 dark:text-white mb-4">
+              Categories
+            </h3>
+            <div className="flex flex-col gap-3 text-sm font-medium text-gray-600 dark:text-gray-400">
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Men" 
+                  onChange={toggleCategory}
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Men</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Women" 
+                  onChange={toggleCategory}
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Women</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Kids" 
+                  onChange={toggleCategory} 
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Kids</span>
+              </label>
+            </div>
           </div>
-        </div>
-        {/* SubCategories Filter */}
-        <div
-          className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? "" : "hidden"} sm:block`}
-        >
-          <p className="mb-3 text-sm font-medium">TYPE</p>
-          <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Topwear"} onChange={toggleSubCategory}/>
-              Topwear
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Bottomwear"} onChange={toggleSubCategory}/>
-              Bottomwear
-            </p>
-            <p className="flex gap-2">
-              <input className="w-3" type="checkbox" value={"Winterwear"} onChange={toggleSubCategory}/>
-              Winterwear
-            </p>
+
+          {/* SubCategories Filter Card */}
+          <div className="bg-premium-card border-premium rounded-2xl p-5 shadow-premium">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-900 dark:text-white mb-4">
+              Type
+            </h3>
+            <div className="flex flex-col gap-3 text-sm font-medium text-gray-600 dark:text-gray-400">
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Topwear" 
+                  onChange={toggleSubCategory}
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Topwear</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Bottomwear" 
+                  onChange={toggleSubCategory}
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Bottomwear</span>
+              </label>
+              <label className="flex items-center gap-3 cursor-pointer group">
+                <input 
+                  className="rounded border-gray-300 dark:border-gray-800 text-black dark:text-white focus:ring-0 focus:ring-offset-0 w-4 h-4 cursor-pointer" 
+                  type="checkbox" 
+                  value="Winterwear" 
+                  onChange={toggleSubCategory}
+                />
+                <span className="group-hover:text-black dark:group-hover:text-white transition">Winterwear</span>
+              </label>
+            </div>
           </div>
+
         </div>
       </div>
 
-      {/* Right Side */}
-      <div className="flex-1">
-        <div className="flex justify-between text-base sm:text-2xl mb-4 ">
-        <Title className ='' text1={'ALL'} text2={'COLLECTIONS'}/>
-          {/* Product Sort */}
-          <select onChange={(e)=>setSortType(e.target.value)} className="border-2 border-gray-300 text-sm px-2">
-            <option value="relevant">Sort by: Relavent</option>
-            <option value="low-high">Sort by: Low to High</option>
-            <option value="high-low">Sort by: High to Low</option>
-          </select>
+      {/* Right Product Grid Column */}
+      <div className="flex-1 space-y-6">
+        
+        {/* Header Options Panel */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-premium pb-4">
+          <Title text1={'ALL'} text2={'COLLECTIONS'} />
+          
+          {/* Sorting Dropdown selector */}
+          <div className="relative w-fit">
+            <select 
+              onChange={(e) => setSortType(e.target.value)} 
+              className="appearance-none bg-premium-card border-premium hover:border-border-hover text-sm py-2 px-4 pr-10 rounded-xl outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition cursor-pointer"
+            >
+              <option value="relevant">Sort by: Relevant</option>
+              <option value="low-high">Sort by: Low to High</option>
+              <option value="high-low">Sort by: High to Low</option>
+            </select>
+            <svg 
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
         </div>
 
-        {/* Map Products */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6 ">
-          {
-            filterProducts.map((item,index)=>(
-              <ProductItem key={index} name={item.name} id={item._id} price={item.price} image={item.image}/>
-            ))
-          }
-
-        </div>
-
+        {/* Map Products List Grid */}
+        {filterProducts.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filterProducts.map((item, index) => (
+              <ProductItem 
+                key={index} 
+                name={item.name} 
+                id={item._id} 
+                price={item.price} 
+                image={item.image}
+              />
+            ))}
+          </div>
+        ) : (
+          // Beautiful Empty State
+          <div className="flex flex-col items-center justify-center py-20 text-center space-y-4 animate-fade-in bg-premium-card border-premium rounded-3xl p-8">
+            <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-900 border border-premium flex items-center justify-center text-gray-400">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white">No products found</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm max-w-sm">
+              We couldn't find any products matching your active filters. Try clearing some search fields or adjusting categories.
+            </p>
+          </div>
+        )}
 
       </div>
     </div>

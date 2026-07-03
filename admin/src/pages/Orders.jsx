@@ -1,49 +1,63 @@
-import { useEffect } from "react"
-import { useState } from "react"
-import axios from 'axios'
-import {backendUrl, currency} from '../App'
-import {toast} from  'react-toastify'
-import { assets } from "../assets/assets"
+import { useEffect, useCallback } from "react";
+import { useState } from "react";
+import axios from "axios";
+import { backendUrl, currency } from "../constants/adminConstants";
+import { toast } from "react-toastify";
+import { assets } from "../assets/assets";
 
-const Orders = ({token}) => {
+const Orders = ({ token }) => {
+  const [orders, setOrders] = useState([]);
 
-  const [orders, setOrders] = useState([])
+  const fetchAllOrders = useCallback(async () => {
+    if (!token) return;
 
-  const fetchAllOrders  = async () => {
-
-    if (!token) {
-      return null;
-    } 
     try {
+      const response = await axios.post(
+        backendUrl + "/api/order/list",
+        {},
+        { headers: { token } }
+      );
 
-      const response = await axios.post(backendUrl + '/api/order/list',{},{headers:{token}})
-      if(response.data.success){
-        setOrders(response.data.orders.reverse())
+      if (response.data.success) {
+        setOrders(response.data.orders?.slice().reverse?.() || []);
       } else {
-        toast.error(response.data.message)
+        toast.error(response.data.message);
       }
-
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
-
-  }
+  }, [token]);
 
   const statusHandler = async (event, orderId) => {
     try {
-      const response = await axios.post(backendUrl + '/api/order/status', {orderId, status:event.target.value},{headers: {token}})
+      const response = await axios.post(
+        backendUrl + "/api/order/status",
+        { orderId, status: event.target.value },
+        { headers: { token } }
+      );
+
       if (response.data.success) {
-        await fetchAllOrders()
+        await fetchAllOrders();
+      } else {
+        toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error)
-      toast.error(response.data.message)
+      console.log(error);
+      toast.error(error?.message || "Failed to update order status");
     }
-  }
+  };
 
-  useEffect(()=>{
-    fetchAllOrders();
-  }, [token])
+  useEffect(() => {
+    const id = setTimeout(() => {
+      fetchAllOrders();
+    }, 0);
+
+    return () => clearTimeout(id);
+  }, [fetchAllOrders]);
+
+
+
+
 
   return (
   <div className="p-6 md:p-10 bg-gray-50 min-h-screen">
