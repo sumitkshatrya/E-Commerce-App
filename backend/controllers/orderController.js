@@ -16,7 +16,8 @@ const placeOrder = async(req,res) => {
 
     try {
         
-        const {userId, items, amount, address} = req.body;
+        const { items, amount, address } = req.body;
+        const userId = req.userId || req.body.userId;
 
         const orderData = {
             userId,
@@ -50,7 +51,8 @@ const placeOrderStripe = async (req,res) => {
         // gateway initialize Stripe
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-        const {userId, items, amount, address} = req.body;
+        const {items, amount, address} = req.body;
+        const userId = req.userId || req.body.userId;
         const {origin} = req.headers;
 
         const orderData = {
@@ -106,11 +108,12 @@ const placeOrderStripe = async (req,res) => {
 // Verify Stripe
 const verifyStripe = async(req, res) =>{
 
-    const {orderId, success, userId} = req.body
+    const {orderId, success} = req.body;
+    const userId = req.userId || req.body.userId
 
     try {
         if (success === "true") {
-            await orderModel.findByIdAndUpdate(orderId, {payment:true});
+            await orderModel.findByIdAndUpdate(orderId, {payment:true, status:'Order Confirmed'});
             await userModel.findByIdAndUpdate(userId, {cartData:{}})
             res.json({success:true})            
         } else {
@@ -135,9 +138,10 @@ const placeOrderRazorpay = async (req, res) => {
       key_secret: process.env.RAZORPAY_KEY_SECRET
     });
 
-    const { userId, items, amount, address } = req.body;
+    const { items, amount, address } = req.body;
+    const userId = req.userId || req.body.userId;
 
-    const orderData = {
+    const orderData = { 
       userId,
       items,
       address,
@@ -175,7 +179,9 @@ const verifyRazorpay = async (req, res) => {
       key_secret: process.env.RAZORPAY_KEY_SECRET
     });
 
-    const { userId, razorpay_order_id } = req.body;
+    const userId = req.userId || req.body.userId;
+    const { razorpay_order_id } = req.body;
+
 
     const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
 
@@ -212,7 +218,7 @@ const allOrders = async (req,res) => {
 const userOrders = async(req,res) => {
  try {
 
-        const { userId } = req.body
+        const userId = req.userId || req.body.userId
 
         const orders  = await orderModel.find({ userId })
         res.json({success:true, orders})

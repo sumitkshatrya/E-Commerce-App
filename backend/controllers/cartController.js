@@ -7,7 +7,10 @@ import userModel from "../models/userModel.js"
         const { userId, itemId, size} = req.body
 
         const userData = await userModel.findById(userId)
-        let cartData = await userData.cartData;
+        if (!userData) {
+            return res.status(404).json({ success: false, message: 'User not found' })
+        }
+        let cartData = userData.cartData || {};
 
         if (cartData[itemId]) {
             if (cartData[itemId][size]) {
@@ -37,7 +40,10 @@ import userModel from "../models/userModel.js"
         const { userId, itemId, size, quantity} = req.body
 
         const userData = await userModel.findById(userId)
-        let cartData = await userData.cartData;
+        if (!userData) {
+            return res.status(404).json({ success: false, message: 'User not found' })
+        }
+        let cartData = userData.cartData || {};
 
         cartData[itemId][size] = quantity
 
@@ -58,7 +64,10 @@ import userModel from "../models/userModel.js"
         const {userId} = req.body
 
         const userData = await userModel.findById(userId)
-        let cartData = await userData.cartData;
+        if (!userData) {
+            return res.status(404).json({ success: false, message: 'User not found' })
+        }
+        let cartData = userData.cartData || {};
 
         res.json({ success: true, cartData })
 
